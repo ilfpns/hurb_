@@ -9,5 +9,7 @@
   "idf.customExtraVars": {
     "IDF_TARGET": "esp32"
   },
-  "idf.portWin": "COM6"
+  "idf.portWin": "COM6",
+  "idf.flashType": "UART",
+  "idf.currentSetup": "c:\\Espressif\\esp-idf-v4.4.8\\v4.4.8\\esp-idf"
 }
