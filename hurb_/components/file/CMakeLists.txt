@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "main.c"
+    SRCS "file.c"
     INCLUDE_DIRS "."
-    REQUIRES dht11 file
+    REQUIRES dht11
 )
