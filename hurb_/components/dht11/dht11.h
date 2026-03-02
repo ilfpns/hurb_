@@ -4,11 +4,15 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
+#include "freertos/queue.h"
 #include "rom/ets_sys.h"
 
-#define DHT_GPIO 4 
-#define GREEN_LED_GPIO 16
-#define RED_LED_GPIO 17
-#define btn_GPIO 2
+#define DHT11_PIN 4
 
-int dht11_read(int *h, int *t);
+typedef struct QueueMold {
+    int H;
+    int T;
+} QueueMold;
+
+
+void dht11_read(void* pvParameters);
