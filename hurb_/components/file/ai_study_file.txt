@@ -1,1 +1,0 @@
-H stands for humidity, T for temperature, h for humidity risk, and t for temperature risk

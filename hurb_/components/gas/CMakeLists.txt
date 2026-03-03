@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "main.c"
+    SRCS "gas.c"
     INCLUDE_DIRS "."
-    REQUIRES dht11 file gas
+    REQUIRES esp_adc
 )
