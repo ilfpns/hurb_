@@ -9,10 +9,10 @@
 
 #define DHT11_PIN 4
 
-typedef struct QueueMold {
+typedef struct dht_data {
     int H;
     int T;
-} QueueMold;
+} dht_data;
 
 
 void dht11_read(void* pvParameters);

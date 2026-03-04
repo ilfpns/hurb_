@@ -4,20 +4,35 @@
 #include "esp_log.h"
 #include "dht11.h"
 #include "file.h"
-
-static QueueHandle_t dhtQueue = NULL;
+#include "gas.h"
 
 static const char *TAG = "Main";
 
-void app_main(void) {
-    QueueMold data;
-    if ((xQueueCreate(10, sizeof(QueueMold))) != pdPASS) {
-        ESP_LOGE(TAG, "DHT11 queue 생성 실패");
-    }
-    xTaskCreate(dht11_read, "dht_task", 4096, &dhtQueue, 5, NULL);
+all_data all;
 
-    if (xQueueReceive(dhtQueue, &data, 0) == pdPASS) {
-        ESP_LOGI(TAG, "H : %d / T : %d", data.H, data.T);
-        file_w(data);
+void app_main(void) {
+    dht_data dht;
+    gas_data gas;
+    static QueueHandle_t dhtQueue = NULL;
+    static QueueHandle_t gasQueue = NULL;
+
+    dhtQueue = xQueueCreate(10, sizeof(dht_data));
+    gasQueue = xQueueCreate(10, sizeof(gas_data));
+
+    xTaskCreate(dht11_read, "dht_task", 4096, &dhtQueue, 5, NULL);
+    xTaskCreate(read_gas_sensor, "gas_task", 4096, &gasQueue, 5, NULL);
+
+    while(1) {
+        if (xQueueReceive(dhtQueue, &dht, 0) == pdPASS) {
+            ESP_LOGI(TAG, "H : %d / T : %d", dht.H, dht.T);
+            all.H = dht.H; all.T = dht.T;
+        }
+
+        if (xQueueReceive(gasQueue, &gas, 0) == pdPASS) {
+            ESP_LOGI(TAG, "ADC: %d, Voltage: %.2fV, Rs: %.2f", gas.adc, gas.voltage, gas.rs);
+            all.rs = gas.rs;
+        }
+
+        file_w(all);
     }
 }

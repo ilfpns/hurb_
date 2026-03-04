@@ -4,7 +4,7 @@ static const char *TAG = "dht11";
 
 void dht11_read(void* pvParameters) {
     QueueHandle_t Queue = (QueueHandle_t)pvParameters;
-    QueueMold data;
+    dht_data data;
     uint8_t d[5] = {0};
 
     ESP_LOGI(TAG, "dht 초기화 성공");
