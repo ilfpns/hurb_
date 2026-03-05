@@ -15,6 +15,7 @@ void app_main(void) {
     gas_data gas;
     static QueueHandle_t dhtQueue = NULL;
     static QueueHandle_t gasQueue = NULL;
+    const int label = 0;
 
     dhtQueue = xQueueCreate(10, sizeof(dht_data));
     gasQueue = xQueueCreate(10, sizeof(gas_data));
@@ -33,6 +34,6 @@ void app_main(void) {
             all.rs = gas.rs;
         }
 
-        file_w(all);
+        file_w(all, label);
     }
 }
